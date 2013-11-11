@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
 
   # Templates
   spec.add_dependency 'haml-rails'
+  spec.add_dependency 'jbuilder', '~> 1.2'
 
   # CSS
   spec.add_dependency 'sass-rails', '~> 4.0.0'
