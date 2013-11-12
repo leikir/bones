@@ -4,13 +4,14 @@
 
 #= require_self
 
-window.App =
-  Models: {}
-  Collections: {}
-  Views: {}
-  Routers: {}
-  initialize: ->
-    console.log 'Hello from Backbone!'
+$.extend true, window,
+  App:
+    Models: {}
+    Collections: {}
+    Views: {}
+    Routers: {}
+    initialize: ->
+      console.log 'Hello from Backbone!'
 
 class App.View extends Backbone.View
 
