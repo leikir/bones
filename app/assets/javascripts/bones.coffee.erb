@@ -35,7 +35,7 @@ class App.View extends Backbone.View
   # - error
   renderTemplate: (options)->
     whenAvailable = =>
-      options.success? App.Templates[@templateName] _.extend(options.data,
+      options.success? App.Templates[@templateName] _.extend(options.data || {},
         I18n: @I18n
       )
 
