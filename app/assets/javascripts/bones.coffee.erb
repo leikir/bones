@@ -12,10 +12,6 @@ window.App =
   initialize: ->
     console.log 'Hello from Backbone!'
 
-templates = <%= Hash[ Bones::Engine.bones_templates.map { |template_name|
-  [template_name, asset_path("templates/#{template_name}.js")]
-} ].to_json %>
-
 class App.View extends Backbone.View
 
   constructor: (options)->
@@ -43,7 +39,7 @@ class App.View extends Backbone.View
       whenAvailable()
     else
       $.ajax
-        url: templates[@templateName]
+        url: App.templatesMap[@templateName]
         dataType: "script"
         success: whenAvailable
         error: ->

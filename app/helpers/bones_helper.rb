@@ -8,8 +8,15 @@ module BonesHelper
     javascript_include_tag('//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js') + javascript_tag("window._ || document.write('<script src=\"#{asset_path('underscore-1.5.2-min.js')}\">\\x3C/script>')")
   end
 
+  def bones_templates_tag
+    map = Hash[ Bones::Engine.bones_templates.map do |template_name|
+      [template_name, asset_path("templates/#{template_name}.js")]
+    end ]
+    javascript_tag("(window.App || (window.App = {})).templatesMap = #{map.to_json};")
+  end
+
   def bones_javascript_tags
-    bones_jquery_javascript_tag + bones_underscore_javascript_tag
+    bones_jquery_javascript_tag + bones_underscore_javascript_tag + bones_templates_tag
   end
 
 end

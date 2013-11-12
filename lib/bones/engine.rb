@@ -2,7 +2,7 @@ module Bones
   class Engine < ::Rails::Engine
 
     def self.bones_templates
-      @@bones_templates_names ||= Dir[Rails.root.join('app', 'assets', 'javascripts', 'templates', '**', '*.{hamlc}').to_s].map do |path|
+      Dir[Rails.root.join('app', 'assets', 'javascripts', 'templates', '**', '*.{hamlc}').to_s].map do |path|
 
         res = path
         res.gsub! Rails.root.join('app', 'assets', 'javascripts', 'templates/').to_s, ''
