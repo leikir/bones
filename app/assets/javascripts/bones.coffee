@@ -22,8 +22,7 @@ class App.Model extends Backbone.Model
     else
       "/#{resource}s/#{@id}"
 
-  toJSON: ->
-    "#{resource}": super()
+  toJSON: -> { "#{resource}": super() }
 
 class App.Collection extends Backbone.Collection
 
