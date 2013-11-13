@@ -13,14 +13,9 @@ $.extend true, window,
     initialize: ->
       console.log 'Hello from Backbone!'
 
-# needs an attribute resource
 class App.Model extends Backbone.Model
 
-  url: ->
-    if @isNew()
-      "/#{@resource}s/"
-    else
-      "/#{@resource}s/#{@id}"
+  #resource: 'user'
 
   toJSON: ->
     res = {}
@@ -29,7 +24,12 @@ class App.Model extends Backbone.Model
 
 class App.Collection extends Backbone.Collection
 
+  url: ->
+    "#{_.result(@parent, 'url') || ''}/#{@model.prototype.resource}s"
 
+  constructor: (models, options = {})->
+    @parent = options.parent
+    super models, options
 
 class App.View extends Backbone.View
 
