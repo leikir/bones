@@ -18,11 +18,14 @@ class App.Model extends Backbone.Model
 
   url: ->
     if @isNew()
-      "/#{resource}s/"
+      "/#{@resource}s/"
     else
-      "/#{resource}s/#{@id}"
+      "/#{@resource}s/#{@id}"
 
-  toJSON: -> { "#{resource}": super() }
+  toJSON: ->
+    res = {}
+    res[@resource] = super
+    res
 
 class App.Collection extends Backbone.Collection
 
