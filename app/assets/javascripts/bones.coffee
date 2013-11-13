@@ -17,6 +17,9 @@ class App.Model extends Backbone.Model
 
   #resource: 'user'
 
+  urlRoot: ->
+    "/#{@resource}s"
+
   toJSON: ->
     res = {}
     res[@resource] = super
