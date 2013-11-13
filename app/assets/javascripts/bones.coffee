@@ -13,6 +13,22 @@ $.extend true, window,
     initialize: ->
       console.log 'Hello from Backbone!'
 
+# needs an attribute resource
+class App.Model extends Backbone.Model
+
+  url: ->
+    if @isNew()
+      "/#{resource}s/"
+    else
+      "/#{resource}s/#{@id}"
+
+  toJSON: ->
+    "#{resource}": super()
+
+class App.Collection extends Backbone.Collection
+
+
+
 class App.View extends Backbone.View
 
   constructor: (options)->
