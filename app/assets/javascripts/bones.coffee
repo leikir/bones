@@ -19,8 +19,15 @@ class App.Model extends Backbone.Model
 
   url: ->
     base = _.result(@, 'urlRoot') || _.result(this.collection, 'url') || "/#{@resource}s" || urlError()
+
     return base if @.isNew()
-    base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(@id)
+
+    base + (
+      if base.charAt(base.length - 1) is '/'
+        ''
+      else
+        '/'
+    ) + encodeURIComponent(@id)
 
   toJSON: ->
     res = {}
