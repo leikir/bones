@@ -13,12 +13,22 @@ $.extend true, window,
     initialize: ->
       console.log 'Hello from Backbone!'
 
+String.prototype.pluralize = ->
+  result = "#{this}"
+  if (result.length < 1) || _.contains(String.inflections.uncountables, result)
+    result
+  else
+    if (found = _.find String.inflections.plurals, ((rule)->result.match(eval(rule[0]))))
+      result.replace eval(found[0]), found[1]
+    else
+      result + 's'
+
 class App.Model extends Backbone.Model
 
   #resource: 'user'
 
   url: ->
-    base = _.result(@, 'urlRoot') || _.result(this.collection, 'url') || "/#{@resource}s" || urlError()
+    base = _.result(@, 'urlRoot') || _.result(this.collection, 'url') || "/#{@resource.pluralize()}" || urlError()
 
     return base if @.isNew()
 
@@ -37,7 +47,7 @@ class App.Model extends Backbone.Model
 class App.Collection extends Backbone.Collection
 
   url: ->
-    "#{_.result(@parent, 'url') || ''}/#{@model.prototype.resource}s"
+    "#{_.result(@parent, 'url') || ''}/#{@model.prototype.resource.pluralize()}"
 
   constructor: (models, options = {})->
     @parent = options.parent
