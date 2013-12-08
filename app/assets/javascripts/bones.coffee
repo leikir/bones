@@ -93,5 +93,8 @@ class App.View extends Backbone.View
       e.stopPropagation()
       e.preventDefault()
 
+  detach: =>
+    @$el.detach()
+
 $ ->
   App.initialize()
