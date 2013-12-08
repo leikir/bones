@@ -30,6 +30,8 @@ class App.Model extends Backbone.Model
   url: ->
     base = _.result(@, 'urlRoot') || _.result(this.collection, 'url') || "/#{@resource.pluralize()}" || urlError()
 
+    base = base.split('?')[0]
+
     return base if @.isNew()
 
     base + (
