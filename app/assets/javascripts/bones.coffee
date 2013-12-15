@@ -55,6 +55,10 @@ class App.Collection extends Backbone.Collection
     @parent = options.parent
     super models, options
 
+templateBeingRendered = false
+templatesRenderingQueue = []
+# window.templatesRenderingQueue = templatesRenderingQueue
+
 class App.View extends Backbone.View
 
   constructor: (options)->
@@ -73,21 +77,51 @@ class App.View extends Backbone.View
   # - success
   # - error
   renderTemplate: (options)->
-    whenAvailable = =>
-      options.success? App.Templates[@templateName] _.extend(options.data || {},
-        I18n: @I18n
-      )
+    # console.log "renderTemplate", @templateName
 
-    if App.Templates? and @templateName of App.Templates
-      whenAvailable()
+    if templateBeingRendered
+
+      # console.log "queue rendering"
+
+      templatesRenderingQueue.push =>
+        @renderTemplate options
+
     else
-      $.ajax
-        url: App.templatesMap[@templateName]
-        dataType: "script"
-        success: whenAvailable
-        error: ->
-          console.error "WTF ?!?"
-          options.error?()
+
+      # console.log "render"
+
+      templateBeingRendered = true
+
+      anyCase = =>
+        # console.log "done"
+        templateBeingRendered = false
+        todo = templatesRenderingQueue[0]
+        templatesRenderingQueue.shift()
+        if _.isFunction(todo)
+          # console.log "do"
+          (todo)()
+        else
+          # console.log "nothing to do"
+
+      whenAvailable = =>
+        options.success? App.Templates[@templateName] _.extend(options.data || {},
+          I18n: @I18n
+        )
+
+      if App.Templates? and @templateName of App.Templates
+        whenAvailable()
+        anyCase()
+      else
+        console.log @templateName, "not available", App.Templates
+        $.ajax(
+          url: App.templatesMap[@templateName]
+          dataType: "script"
+          success: whenAvailable
+          error: =>
+            console.error "template error", @templateName
+            options.error?()
+            anyCase()
+        ).always anyCase
 
   killEvent: (e)->
     if e
