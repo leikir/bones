@@ -26,7 +26,7 @@ module BonesHelper
         acronym_regex: js_regexp(ActiveSupport::Inflector.inflections.acronym_regex),
         acronyms: ActiveSupport::Inflector.inflections.acronyms,
         humans: ActiveSupport::Inflector.inflections.humans,
-        plurals: [['/(.*)ium/', '$1ia']],#ActiveSupport::Inflector.inflections.plurals.map{|rule|
+        plurals: [['/(.*)ium/', '$1ia'], ['/(.*)y/', '$1ies']],#ActiveSupport::Inflector.inflections.plurals.map{|rule|
           #[js_regexp(rule[0]), js_replacement(rule[1])]
         #},
         singulars: [],#ActiveSupport::Inflector.inflections.singulars.map{|rule|
