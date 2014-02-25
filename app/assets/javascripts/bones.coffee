@@ -41,6 +41,24 @@ class App.Model extends Backbone.Model
         '/'
     ) + encodeURIComponent(@id)
 
+  fetch: (options)->
+    if params = options.params
+
+      current_url = @url # could be a string or a function
+      current_url_s = _.result @, 'url'
+      @url = if current_url_s.indexOf('?') < 0
+        "#{current_url_s}?#{params}"
+      else
+        "#{current_url_s}&#{params}"
+
+      super options
+
+      @url = current_url
+
+    else
+
+      super options
+
   toJSON: ->
     res = {}
     res[@resource] = super
