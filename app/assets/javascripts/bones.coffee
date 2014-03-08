@@ -41,7 +41,7 @@ class App.Model extends Backbone.Model
         '/'
     ) + encodeURIComponent(@id)
 
-  fetch: (options)->
+  fetch: (options = {})->
     if params = options.params
 
       current_url = @url # could be a string or a function
