@@ -130,7 +130,7 @@ class App.View extends Backbone.View
         whenAvailable()
         anyCase()
       else
-        console.log @templateName, "not available", App.Templates
+        # console.log @templateName, "not available", App.Templates
         $.ajax(
           url: App.templatesMap[@templateName]
           dataType: "script"
